@@ -178,8 +178,9 @@ function drawGround() {
 
   // Dirt pattern
   ctx.fillStyle = '#c4a44a';
-  for (let i = 0; i < 20; i++) {
-    const gx = ((i * 28 + groundX * 0.5) % (W + 28)) - 14;
+  const patternW = 28;
+  const offset = groundX % patternW;
+  for (let gx = -offset - patternW; gx < W + patternW; gx += patternW) {
     ctx.fillRect(gx, H - groundH + 14, 8, 3);
     ctx.fillRect(gx + 14, H - groundH + 28, 6, 3);
   }
@@ -540,7 +541,7 @@ function draw() {
   for (const p of pipes) drawPipe(p);
 
   drawGround();
-  drawBird();
+  if (state !== STATE.START) drawBird();
   drawParticles();
 
   if (state === STATE.PLAYING) drawScore();
